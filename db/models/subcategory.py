@@ -21,6 +21,7 @@ class Subcategory(Base):
     quizzes: Mapped[List["Quiz"]] = relationship(
         back_populates='subcategory',
         cascade='all, delete-orphan',
+        passive_deletes=True,
     )
 
     def __repr__(self):

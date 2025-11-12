@@ -22,6 +22,7 @@ class User(Base):
     answers: Mapped[List["UserAnswer"]] = relationship(
         back_populates='user',
         cascade='all, delete-orphan',
+        passive_deletes=True,
     )
 
     def __repr__(self):

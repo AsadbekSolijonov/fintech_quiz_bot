@@ -20,6 +20,7 @@ class Option(Base):
     user_answers: Mapped["UserAnswer"] = relationship(
         back_populates='option',
         cascade="all, delete-orphan",
+        passive_deletes=True,
     )
 
     def __repr__(self):

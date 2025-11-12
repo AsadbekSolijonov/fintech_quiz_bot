@@ -20,6 +20,7 @@ class Category(Base):
     subcategories: Mapped[List["Subcategory"]] = relationship(
         back_populates='category',
         cascade='all, delete-orphan',
+        passive_deletes=True,
 
     )
 
