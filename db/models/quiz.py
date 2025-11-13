@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 class Quiz(Base):
     __tablename__ = 'quizzes'
     __table_args__ = (
-        CheckConstraint("length(text) > 2", name="check_quiz_text_gt_two"),
+        CheckConstraint("char_length(btrim(text)) > 2", name="check_quiz_text_gt_two"),
         UniqueConstraint('subcategory_id', 'text', name="uq_sub_id__sub_text")
     )
 
@@ -25,6 +25,7 @@ class Quiz(Base):
         back_populates='quiz',
         cascade="all, delete-orphan",
         passive_deletes=True,
+        single_parent=True,
     )
 
     def __repr__(self):
