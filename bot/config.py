@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_HOST: str
     DB_PORT: str
+    ADMINS: list[int]
 
 
 settings = Settings()
@@ -30,3 +31,4 @@ if __name__ == '__main__':
     print(settings.DB_PASSWORD)
     print(settings.DB_USER)
     print(settings.BOT_TOKEN)
+    print(settings.ADMINS)
