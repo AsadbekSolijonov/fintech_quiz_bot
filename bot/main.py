@@ -15,7 +15,9 @@ dp = Dispatcher()
 async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     from bot.handlers import start_router, reg_router, follow_router, import_router
+    from bot.handlers.menu import test_router
     dp.include_routers(start_router, reg_router, follow_router, import_router)
+    dp.include_routers(test_router)
     await dp.start_polling(bot)
 
 

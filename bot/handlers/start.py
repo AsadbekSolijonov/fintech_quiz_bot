@@ -4,6 +4,7 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from sqlalchemy import select
 
+from bot.keyboards.defualt.menu import builder_menu
 from bot.states.register import Register
 from db.models import User
 
@@ -22,4 +23,4 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
         await message.answer("Iltimos, Ro'yxatdan o'tish uchun to'liq ism sharfingizni kiriting.")
         await state.set_state(Register.fullname)
     else:
-        await message.answer('Siz avval ro‘yxatdan o‘tgansiz.')
+        await message.answer('Menu ni tanglang', reply_markup=builder_menu())
