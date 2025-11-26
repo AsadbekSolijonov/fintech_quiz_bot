@@ -26,6 +26,12 @@ class QuizData(CallbackData, prefix='quiz'):  # "quiz:action:1"
     cat_id: int
 
 
+class UserAnswerData(CallbackData, prefix='u_answer'):
+    quiz_id: int
+    option_id: int
+    quiz_index: int
+
+
 # davomi bor.
 
 if __name__ == '__main__':

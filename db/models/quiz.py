@@ -3,6 +3,7 @@ from typing import List, Optional, TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, ForeignKey, CheckConstraint, UniqueConstraint
 from db.base import Base
+
 if TYPE_CHECKING:
     from db.models import Subcategory, Option, UserAnswer
 
@@ -20,7 +21,7 @@ class Quiz(Base):
     subcategory_id: Mapped[int] = mapped_column(ForeignKey("subcategories.id", ondelete='CASCADE'), nullable=False)
 
     subcategory: Mapped["Subcategory"] = relationship(back_populates='quizzes')
-    options: Mapped[List["Option"]] = relationship(back_populates='quiz', cascade='all, delete-orphan')
+    options: Mapped[List["Option"]] = relationship(back_populates='quiz', cascade='all, delete-orphan', lazy="selectin")
     user_answers: Mapped[List["UserAnswer"]] = relationship(
         back_populates='quiz',
         cascade="all, delete-orphan",
