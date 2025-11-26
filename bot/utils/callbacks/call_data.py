@@ -29,7 +29,6 @@ class QuizData(CallbackData, prefix='quiz'):  # "quiz:action:1"
 class UserAnswerData(CallbackData, prefix='u_answer'):
     quiz_id: int
     option_id: int
-    quiz_index: int
 
 
 # davomi bor.

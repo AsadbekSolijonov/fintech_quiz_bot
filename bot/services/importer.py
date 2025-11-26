@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, column
 from db.models import Category, Subcategory, Quiz, Option
 import pandas as pd
 
@@ -6,7 +6,7 @@ from db import get_session
 
 
 def import_excel_to_database(excel_file_path):
-    df = pd.read_excel(excel_file_path, sheet_name='quizzes')
+    df = pd.read_excel(excel_file_path)
     with get_session() as db:
         for idx, row in df.iterrows():
             excel_row = idx + 2
@@ -61,7 +61,7 @@ def import_excel_to_database(excel_file_path):
 
             # option
             for text, is_correct in options:
-                option = db.scalar(select(Option).where(text == Option.text, quiz.id == Option.quiz_id))
+                option = db.scalar(select(Option).where(Option.text == str(text), Option.quiz_id == quiz.id))
                 if option is None:
                     option = Option(text=text, is_correct=is_correct, quiz_id=quiz.id)
                     db.add(option)
