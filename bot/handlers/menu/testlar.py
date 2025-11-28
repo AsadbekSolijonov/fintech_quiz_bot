@@ -1,3 +1,4 @@
+import random
 from typing import Union
 
 from aiogram.types import Message, CallbackQuery
@@ -14,6 +15,7 @@ from bot.utils.quiz.quizzes import get_quizzes, get_quiz_by_id
 from bot.utils.quiz.subcategory import get_subcategories
 from bot.utils.quiz.user import get_user
 from aiogram.fsm.context import FSMContext
+from bot.utils.quiz.user_answer import save_user_answer
 
 from db.models import Quiz
 
@@ -69,6 +71,8 @@ async def handler_subcategory(call: CallbackQuery, callback_data: SubcategoryDat
 @test_router.callback_query(QuizState.quiz, QuizData.filter(F.action == Action.start))
 async def quiz_start(call: CallbackQuery, callback_data: QuizData, state: FSMContext):
     quizzes = get_quizzes(sub_id=callback_data.sub_id)
+    random.shuffle(quizzes)
+
     idx = 0
     quiz = quizzes[0]
 
@@ -84,12 +88,14 @@ async def option_filer(call: CallbackQuery, callback_data: UserAnswerData, state
     data = await state.get_data()
     quiz_ids = data.get('quiz_ids')
     idx = data.get('idx')
+    current_quiz_id = quiz_ids[idx]
 
-    # save_user_answer(
-    #     user_id=user.id,
-    #     quiz_id=current_quiz_id,
-    #     option_id=callback_data.option_id,
-    # )
+    # db save
+    save_user_answer(
+        user_id=user.id,
+        quiz_id=current_quiz_id,
+        option_id=callback_data.option_id,
+    )
 
     idx += 1
 
@@ -109,5 +115,6 @@ async def show_quiz(message: Message, idx, quiz: Quiz):
     quiz_num = idx + 1
     text = quiz.text
     options = quiz.options
+    random.shuffle(options)
     btns = builder_quiz_options(options)
     await message.edit_text(f"{quiz_num}-savol: {text}", reply_markup=btns)
